@@ -368,7 +368,7 @@ def main(args):
     #    t.kill_received = True
     
 if __name__ == "__main__":
-    logging.config.fileConfig("config/logger.conf",disable_existing_loggers=False)
+    logging.config.fileConfig("config/logger.conf", disable_existing_loggers=False)
     logger = logging.getLogger(__name__)
     #disable logging of http requests
     logging.getLogger("requests").setLevel(logging.WARN)

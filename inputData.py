@@ -87,6 +87,7 @@ def old_loadDemand_Sample():
     # demand_data = np.genfromtxt('data/input/Sample/sample_load_data.csv', delimiter=',', names=True, dtype=None, encoding='utf-8')
     cols = list(range(6, 52+1, 2))
     cols.insert(0, 1)
+    # read column 2, col 7~53 for every 2 cols (1 hour per data point)
     demand_data = np.loadtxt('data/input/Sample/sample_load_data.csv', delimiter=',', skiprows=1, usecols=cols)
     for row in demand_data:
         cus_id = "E{0:03d}".format(int(row[0]))
