@@ -90,7 +90,6 @@ def old_loadDemand_Sample():
     # read column 2, col 7~53 for every 2 cols (1 hour per data point) from input data
     # replace our own data files to the /Sample/ folder
     demand_data = np.loadtxt('data/input/Sample/sample_load_data.csv', delimiter=',', skiprows=1, usecols=cols)
-    # demand_data = np.loadtxt
     for row in demand_data:
         cus_id = "E{0:03d}".format(int(row[0]))
         if not demand.get(cus_id):
@@ -110,6 +109,19 @@ def old_loadDemand_Sample():
 
 
     return demand
+
+
+def PV_data():  # load house's PV production data
+    global pv
+
+    return pv
+
+
+def Load_data():  # load house's consumption data
+    global consumption
+
+    return  consumption
+
 
 ######################
 # update functions to be used by emulator
