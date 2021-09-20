@@ -4,7 +4,7 @@ Created on Aug 6, 2015
 @author: annette
 '''
 
-# import pandas as pd
+import pandas as pd
 import numpy as np
 import logging.config, datetime
 from copy import deepcopy
@@ -42,7 +42,7 @@ class inputDataManager:
 
 
 ############################
-# load data from CSV
+# load data from CSV, sample data
 ############################
     
 def loadSol_Sample():
@@ -111,8 +111,19 @@ def old_loadDemand_Sample():
     return demand
 
 
+############################
+# load data from CSV with our data
+############################
+
 def PV_data():  # load house's PV production data
     global pv
+
+    col = list(range(2, 6, 1))
+    col.insert(0, 0)
+    # print(col)
+    our_data = np.loadtxt('data/input/Sample/house214_2019.csv', delimiter=',', skiprows=1, usecols=col)
+    # get the pvc_charge_power column (3rd), house 214, 2019
+    pv = our_data[:, 2]
 
     return pv
 
@@ -120,11 +131,19 @@ def PV_data():  # load house's PV production data
 def Load_data():  # load house's consumption data
     global consumption
 
-    return  consumption
+    consumption = {}
+    col = list(range(2, 6, 1))
+    col.insert(0, 0)
+    # print(col)
+    our_data = np.loadtxt('data/input/Sample/house214_2019.csv', delimiter=',', skiprows=1, usecols=col)
+    # get the load column (2nd), house 214, 2019
+    consumption = our_data[:, 1]
+
+    return consumption
 
 
 ######################
-# update functions to be used by emulator
+# update functions to be used by emulator with sample data
 ######################
 
 def old_pvcUpdate_Sample():
@@ -152,3 +171,31 @@ def old_demandUpdate_Sample():
     return True
 
 
+######################
+# update functions to be used by emulator with our data
+######################
+def pvUpdate():
+    count_h = float(gl.count_s) / 3600
+    weight = count_h - int(count_h)
+    step_now = (int((count_h) / 24*4)), int((count_h) % 24*4)
+    step_next = (int((count_h + 1) / 24*4)), int((count_h + 1) % 24*4)
+    if int(count_h + 1) >= pv.size:
+        logger.debug("no more pv production data")
+        return False
+    for oesid in gl.oesunits:
+        gl.oesunits[oesid]["emu"]["pvc_charge_power"] = round((1 - weight) * pv[step_now] + weight * pv[step_next],
+                                                              2)  # sol[W]
+    return True
+
+def loadUpdate():
+    count_h = float(gl.count_s) / 3600
+    weight = count_h - int(count_h)
+    step_now = int((count_h) / 24*4), int((count_h) % 24*4)
+    step_next = (int((count_h + 1) / 24*4), int((count_h + 1) % 24*4))
+    if int(count_h + 1) >= consumption[next(iter(gl.oesunits))].size:
+        logger.debug("no more consumption data")
+        return False
+    for oesid in gl.oesunits:
+        gl.oesunits[oesid]["emu"]["ups_output_power"] = round(
+            ((1 - weight) * consumption[oesid][step_now] + weight * demand[oesid][step_next]), 2)  # consumption[W]
+    return True
