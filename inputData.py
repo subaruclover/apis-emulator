@@ -19,20 +19,27 @@ class inputDataManager:
         #solarData=solarData
         #loadInputdata
         if inputSet=="Sample":
-            gl.startTime= datetime.datetime(2020, 1, 1, 0, 0, 0)
-            gl.endTime= datetime.datetime(2021, 1, 1, 0, 0, 0)
+            # gl.startTime= datetime.datetime(2020, 1, 1, 0, 0, 0)
+            # gl.endTime= datetime.datetime(2021, 1, 1, 0, 0, 0)
+            gl.startTime = datetime.datetime(2019, 1, 1, 0, 0, 0)
+            gl.endTime = datetime.datetime(2019, 12, 31, 0, 0, 0)
             gl.now = deepcopy(gl.startTime)
             #loadSample
-            old_loadDemand_Sample()
+            # old_loadDemand_Sample()
+            Load_data()
             #define demand update
-            self.demandUpdate = old_demandUpdate_Sample
-            
-                        #load solar radiation data
-            loadSol_Sample()
+            # self.demandUpdate = old_demandUpdate_Sample
+            self.demandUpdate = loadUpdate()
+
+            #load solar radiation data
+            # loadSol_Sample()
+            PV_data()
             #define PV update
-            self.pvcUpdate = old_pvcUpdate_Sample
+            # self.pvcUpdate = old_pvcUpdate_Sample
+            self.pvcUpdate = pvUpdate()
             
             for emulid in gl.displayNames :
+                # TODO: replace with pvc_charge_power
                 conf.batterySize[emulid]=conf.default_batterySize
                 conf.pvc_sol_reg[emulid]=conf.default_Area * conf.r * conf.pr
                 
