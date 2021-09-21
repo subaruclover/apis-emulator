@@ -12,6 +12,7 @@ import global_var as gl
 import config as conf
 logger = logging.getLogger(__name__)
 
+
 class inputDataManager:
 
     def __init__(self, inputSet):
@@ -38,13 +39,13 @@ class inputDataManager:
             # self.pvcUpdate = old_pvcUpdate_Sample
             self.pvcUpdate = pvUpdate()
             
-            for emulid in gl.displayNames :
+            for emulid in gl.displayNames:
                 # TODO: replace with pvc_charge_power
                 conf.batterySize[emulid]=conf.default_batterySize
                 conf.pvc_sol_reg[emulid]=conf.default_Area * conf.r * conf.pr
                 
         else:
-            logger.error("Could not read input data for "+inputSet )
+            logger.error("Could not read input data for " + inputSet)
 
 
 
@@ -130,7 +131,23 @@ def PV_data():  # load house's PV production data
     # print(col)
     our_data = np.loadtxt('data/input/Sample/house214_2019.csv', delimiter=',', skiprows=1, usecols=col)
     # get the pvc_charge_power column (3rd), house 214, 2019
-    pv = our_data[:, 2]
+    # pv = our_data[:, 2]
+
+    pv = {}
+
+    day_len = int(len(our_data) / 96)
+
+    for load_col in our_data:
+        house_id = "E{0:03d}".format(int(load_col[0]))
+        if not pv.get(house_id):
+            pv[house_id] = []
+
+    for day in range(day_len):
+        pv[house_id].append(our_data[day * 96:(day + 1) * 96, 2])
+
+    for house_id in pv:
+        pv[house_id] = np.array(pv[house_id])
+    pv = pv[house_id]
 
     return pv
 
@@ -144,7 +161,21 @@ def Load_data():  # load house's consumption data
     # print(col)
     our_data = np.loadtxt('data/input/Sample/house214_2019.csv', delimiter=',', skiprows=1, usecols=col)
     # get the load column (2nd), house 214, 2019
-    consumption = our_data[:, 1]
+    # consumption = our_data[:, 1]
+
+    day_len = int(len(our_data) / 96)
+
+    for load_col in our_data:
+        house_id = "E{0:03d}".format(int(load_col[0]))
+        if not consumption.get(house_id):
+            consumption[house_id] = []
+
+    for day in range(day_len):
+        consumption[house_id].append(our_data[day * 96:(day + 1) * 96, 1])
+
+    for house_id in consumption:
+        consumption[house_id] = np.array(consumption[house_id])
+        gl.displayNames[house_id]="Sample_" + house_id
 
     return consumption
 
