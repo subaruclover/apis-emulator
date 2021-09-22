@@ -147,6 +147,7 @@ def PV_data():  # load house's PV production data
 
     for house_id in pv:
         pv[house_id] = np.array(pv[house_id])
+
     pv = pv[house_id]
 
     return pv
