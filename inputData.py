@@ -13,36 +13,36 @@ import config as conf
 logger = logging.getLogger(__name__)
 
 
-class inputDataManager:
+class inputDataManager():
 
     def __init__(self, inputSet):
-        #demandData=demandData
-        #solarData=solarData
-        #loadInputdata
-        if inputSet=="Sample":
-            # gl.startTime= datetime.datetime(2020, 1, 1, 0, 0, 0)
-            # gl.endTime= datetime.datetime(2021, 1, 1, 0, 0, 0)
-            gl.startTime = datetime.datetime(2019, 1, 1, 0, 0, 0)
-            gl.endTime = datetime.datetime(2019, 12, 31, 0, 0, 0)
+        # demandData=demandData
+        # solarData=solarData
+        # loadInputdata
+        if inputSet == "Sample":
+            gl.startTime = datetime.datetime(2020, 1, 1, 0, 0, 0)
+            gl.endTime = datetime.datetime(2021, 1, 1, 0, 0, 0)
+            # gl.startTime = datetime.datetime(2019, 1, 1, 0, 0, 0)
+            # gl.endTime = datetime.datetime(2019, 12, 31, 0, 0, 0)
             gl.now = deepcopy(gl.startTime)
-            #loadSample
-            # old_loadDemand_Sample()
-            Load_data()
-            #define demand update
-            # self.demandUpdate = old_demandUpdate_Sample
-            self.demandUpdate = loadUpdate()
+            # loadSample
+            old_loadDemand_Sample()
+            # Load_data()
+            # define demand update
+            self.demandUpdate = old_demandUpdate_Sample
+            # self.demandUpdate = loadUpdate()
 
-            #load solar radiation data
-            # loadSol_Sample()
-            PV_data()
-            #define PV update
-            # self.pvcUpdate = old_pvcUpdate_Sample
-            self.pvcUpdate = pvUpdate()
+            # load solar radiation data
+            loadSol_Sample()
+            # PV_data()
+            # define PV update
+            self.pvcUpdate = old_pvcUpdate_Sample
+            # self.pvcUpdate = pvUpdate()
             
             for emulid in gl.displayNames:
                 # TODO: replace with pvc_charge_power
-                conf.batterySize[emulid]=conf.default_batterySize
-                conf.pvc_sol_reg[emulid]=conf.default_Area * conf.r * conf.pr
+                conf.batterySize[emulid] = conf.default_batterySize
+                conf.pvc_sol_reg[emulid] = conf.default_Area * conf.r * conf.pr
                 
         else:
             logger.error("Could not read input data for " + inputSet)

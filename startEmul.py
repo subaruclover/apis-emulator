@@ -342,7 +342,7 @@ def startWebServer():
              
 def main(args):
     try:
-        if conf.doUpdates :
+        if conf.doUpdates:
             gl.inData = inputDataManager(conf.dataSet)
             initializeOESUnits(args)
             t = threading.Thread(target=startWebServer, name="tornado")
@@ -355,7 +355,7 @@ def main(args):
             gl.analyserObject.writeToCSV()
             t.kill_received = True
         else:
-            gl.acc=1
+            gl.acc = 1
             initializeOESUnits(args)
             startWebServer()
             
