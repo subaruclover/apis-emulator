@@ -122,16 +122,31 @@ def lossesAndBatteryFlow(accumulateLosses=False):
                                  gl.acloss[i] - \
                                  gl.dcloss[i]
             # batteryFlow is always positive !
+            # if powerflowToBattery > 0:
+            #     gl.oesunits[i]["emu"]["charge_discharge_power"] = round(powerflowToBattery, 2)
+            #     gl.oesunits[i]["emu"]["battery_current"] = round(
+            #         gl.oesunits[i]["emu"]["charge_discharge_power"] / conf.batteryVoltage, 2)
+            #     # logger.debug( i+ ": charge_disch "+ str(gl.oesunits[i]["emu"]["charge_discharge_power"]) + ", ACLoss: "+str(ACLoss) + ", DCLoss: " +str(DCLoss))
+            # else:
+            #     gl.oesunits[i]["emu"]["charge_discharge_power"] = - round(powerflowToBattery, 2)
+            #     gl.oesunits[i]["emu"]["battery_current"] = -round(
+            #         gl.oesunits[i]["emu"]["charge_discharge_power"] / conf.batteryVoltage, 2)
+            #     # logger.debug( i+ ": charge_disch "+ str(-gl.oesunits[i]["emu"]["charge_discharge_power"]) + ", ACLoss: "+str(ACLoss) + ", DCLoss: " +str(DCLoss))
+
+            # TODO RL Learner =====
+            # first try with fixed battery char/dischar current
             if powerflowToBattery > 0:
                 gl.oesunits[i]["emu"]["charge_discharge_power"] = round(powerflowToBattery, 2)
                 gl.oesunits[i]["emu"]["battery_current"] = round(
-                    gl.oesunits[i]["emu"]["charge_discharge_power"] / conf.batteryVoltage, 2)
+                    30 / conf.batteryVoltage, 2)
                 # logger.debug( i+ ": charge_disch "+ str(gl.oesunits[i]["emu"]["charge_discharge_power"]) + ", ACLoss: "+str(ACLoss) + ", DCLoss: " +str(DCLoss))
             else:
                 gl.oesunits[i]["emu"]["charge_discharge_power"] = - round(powerflowToBattery, 2)
                 gl.oesunits[i]["emu"]["battery_current"] = -round(
-                    gl.oesunits[i]["emu"]["charge_discharge_power"] / conf.batteryVoltage, 2)
+                    30 / conf.batteryVoltage, 2)
                 # logger.debug( i+ ": charge_disch "+ str(-gl.oesunits[i]["emu"]["charge_discharge_power"]) + ", ACLoss: "+str(ACLoss) + ", DCLoss: " +str(DCLoss))
+
+
 
 
 def rsocUpdate():

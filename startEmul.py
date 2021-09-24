@@ -334,7 +334,7 @@ def initializeOESUnits(args):
 def addNUnits(n):
     for i in range(n) :
         addUnit()
-    logger.debug("starting off with "+str(n)+ " units.")
+    logger.debug("starting off with "+str(n) + " units.")
     
 def startWebServer():
     run(host=conf.b_host, port=conf.b_port, quiet=False, reloader=False)
