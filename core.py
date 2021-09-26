@@ -138,12 +138,12 @@ def lossesAndBatteryFlow(accumulateLosses=False):
             if powerflowToBattery > 0:
                 gl.oesunits[i]["emu"]["charge_discharge_power"] = round(powerflowToBattery, 2)
                 gl.oesunits[i]["emu"]["battery_current"] = round(
-                    30 / conf.batteryVoltage, 2)
+                    3000 / conf.batteryVoltage, 2)
                 # logger.debug( i+ ": charge_disch "+ str(gl.oesunits[i]["emu"]["charge_discharge_power"]) + ", ACLoss: "+str(ACLoss) + ", DCLoss: " +str(DCLoss))
             else:
                 gl.oesunits[i]["emu"]["charge_discharge_power"] = - round(powerflowToBattery, 2)
                 gl.oesunits[i]["emu"]["battery_current"] = -round(
-                    30 / conf.batteryVoltage, 2)
+                    1000 / conf.batteryVoltage, 2)
                 # logger.debug( i+ ": charge_disch "+ str(-gl.oesunits[i]["emu"]["charge_discharge_power"]) + ", ACLoss: "+str(ACLoss) + ", DCLoss: " +str(DCLoss))
 
 
