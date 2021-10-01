@@ -386,7 +386,7 @@ def startWebServer():
 def main(args):
     try:
         if conf.doUpdates:
-            gl.inData = inputDataManager(conf.dataSet)
+            gl.inData = inputDataManager(conf.dataSet)  # input Sample dataset
             initializeOESUnits(args)
             t = threading.Thread(target=startWebServer, name="tornado")
             t.daemon = True

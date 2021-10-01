@@ -16,7 +16,7 @@ acloss = {}
 dcloss = {}
 wasted = {}
 
-inData = None
+inData = None  # input data
 
 # sums up all up until now
 analyserObject = None

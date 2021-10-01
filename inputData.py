@@ -16,8 +16,8 @@ logger = logging.getLogger(__name__)
 class inputDataManager():
 
     def __init__(self, inputSet):
-        # demandData=demandData
-        # solarData=solarData
+        # demandData = demandData
+        # solarData = solarData
         # loadInputdata
         if inputSet == "Sample":
             gl.startTime = datetime.datetime(2020, 1, 1, 0, 0, 0)
@@ -38,12 +38,12 @@ class inputDataManager():
             # define PV update
             self.pvcUpdate = old_pvcUpdate_Sample
             # self.pvcUpdate = pvUpdate()
-            
+
             for emulid in gl.displayNames:
-                # TODO: replace with pvc_charge_power
+                # TODO: replace with pvc_charge_power for our data
                 conf.batterySize[emulid] = conf.default_batterySize
                 conf.pvc_sol_reg[emulid] = conf.default_Area * conf.r * conf.pr
-                
+
         else:
             logger.error("Could not read input data for " + inputSet)
 
@@ -52,7 +52,7 @@ class inputDataManager():
 ############################
 # load data from CSV, sample data
 ############################
-    
+
 def loadSol_Sample():
     global sol
     # sol_data = pd.read_csv('data/input/Sample/sample_solar_data.csv')
@@ -105,7 +105,7 @@ def old_loadDemand_Sample():
         demand[cus_id].append(row[1:])
     for cus_id in demand:
         demand[cus_id] = np.array(demand[cus_id])
-        gl.displayNames[cus_id]="Sample_"+cus_id
+        gl.displayNames[cus_id] = "Sample_"+cus_id
 
     # print('#### cols : {}'.format(cols))
     # print('#### demand_data : {}'.format(demand_data))
@@ -114,7 +114,6 @@ def old_loadDemand_Sample():
     #     print('#### demand[{}] ({})'.format(key, len(a)))
     #     for aa in a:
     #         print(*aa, sep=',')
-
 
     return demand
 
@@ -188,25 +187,25 @@ def Load_data():  # load house's consumption data
 def old_pvcUpdate_Sample():
     count_h=float(gl.count_s)/3600
     weight = count_h-int(count_h)
-    step_now=(int((count_h)/24)),int((count_h)%24)
-    step_next=(int((count_h+1)/24)),int((count_h+1)%24)
-    if int(count_h+1) >= sol.size :
+    step_now=(int((count_h)/24)), int((count_h)%24)
+    step_next=(int((count_h+1)/24)), int((count_h+1)%24)
+    if int(count_h+1) >= sol.size:
         logger.debug("no more solar radiation data")
         return False
     for oesid in gl.oesunits:
-        gl.oesunits[oesid]["emu"]["pvc_charge_power"]=round((1-weight)*sol[step_now]+ weight*sol[step_next],2) #sol[W]
+        gl.oesunits[oesid]["emu"]["pvc_charge_power"] = round((1-weight)*sol[step_now]+ weight*sol[step_next],2) #sol[W]
     return True
 
 def old_demandUpdate_Sample():
     count_h=float(gl.count_s)/3600
     weight = count_h-int(count_h)
-    step_now=int((count_h)/24),int((count_h)%24)
-    step_next=(int((count_h+1)/24),int((count_h+1)%24))
+    step_now=int((count_h)/24), int((count_h)%24)
+    step_next=(int((count_h+1)/24), int((count_h+1)%24))
     if int(count_h+1) >= demand[next(iter(gl.oesunits))].size:
         logger.debug("no more demand data")
         return False
     for oesid in gl.oesunits:
-        gl.oesunits[oesid]["emu"]["ups_output_power"]=round(((1-weight)*demand[oesid][step_now] + weight*demand[oesid][step_next])*1000,2) #demand[W]
+        gl.oesunits[oesid]["emu"]["ups_output_power"] = round(((1-weight)*demand[oesid][step_now] + weight*demand[oesid][step_next])*1000,2) #demand[W]
     return True
 
 
@@ -225,6 +224,7 @@ def pvUpdate():
         gl.oesunits[oesid]["emu"]["pvc_charge_power"] = round((1 - weight) * pv[step_now] + weight * pv[step_next],
                                                               2)  # sol[W]
     return True
+
 
 def loadUpdate():
     count_h = float(gl.count_s) / 3600
