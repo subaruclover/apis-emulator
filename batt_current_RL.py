@@ -338,46 +338,6 @@ class BatteryRSOC():
             return reward
 
 
-# def startWebServer():
-#     run(host=conf.b_host, port=conf.b_port, quiet=False, reloader=False)
-
-# host = conf.b_host
-# port = conf.b_port
-
-# import requests
-# payload = "{\"name\":\"John\",\"age\":30,\"cars\":[ \"Ford\", \"BMW\",\"Fiat\"]}"
-# url = "localhost:8080/api"
-# headers = {
-#   'content-type': "application/json",
-#   'cache-control': "no-cache"
-#   }
-# response = requests.request("POST", url, data=payload, headers=headers)
-# print(response.text)
-
-# @post('/')
-# def index():
-#     postdata = request.body.read()
-#     print(postdata) #this goes to log file only, not to client
-#     name = request.forms.get("name")
-#     surname = request.forms.get("surname")
-#     return "Hi {name} {surname}".format(name=name, surname=surname)
-#
-# run(host=conf.b_host, port=conf.b_port, debug=True)
-
-
-# import sys
-#
-# @get('/api')
-# def hello():
-#     return "This is api page for processing POSTed messages"
-#
-# @post('/api')
-# def api():
-#     print(request.body.getvalue().decode('utf-8'), file=sys.stdout)
-#     return request.body
-
-
-# run(host=conf.b_host, port=conf.b_port, debug=True)
 url = "http://0.0.0.0:4390/get/log"
 import requests, json
 # response = requests.request("POST", url, data=gl)
