@@ -338,19 +338,34 @@ class BatteryRSOC():
             return reward
 
 
-url = "http://0.0.0.0:4390/get/log"
+host = conf.b_host
+port = conf.b_port
+# url = "http://0.0.0.0:4390/get/log"
+
+URL = "http://" + host + ":" + str(port) + "/get/log"
 import requests, json
 # response = requests.request("POST", url, data=gl)
 # print(response.text)
+
+# dicts of states for all houses
+pvc_charge_power = {}
+ups_output_power = {}
+p2 = {}
 
 # need to refresh the output data every 5s? time.sleep()
 while not gl.sema:  # True
     # refresh every 5 seconds
     time.sleep(5)
     # read variables from /get/log url
-    output_data = requests.get(url).text
-    # print(f.text)
-    output_data = json.loads(output_data)
-    house_1 = output_data['E001']
-    print(house_1['emu']['rsoc'])
+    # print(output_data.text)
+    output_data = requests.get(URL).text
+    output_data = json.loads(output_data)  # dict
 
+    for ids, dict_ in output_data.items():  # ids: E001, E002, ... house ID
+        # print('the name of the dictionary is ', ids)
+        # print('the dictionary looks like ', dict_)
+        pvc_charge_power[ids] = output_data[ids]["emu"]["pvc_charge_power"]
+        ups_output_power[ids] = output_data[ids]["emu"]["ups_output_power"]
+        p2[ids] = output_data[ids]["dcdc"]["powermeter"]["p2"]
+
+        print("pv", pvc_charge_power, "load", ups_output_power, "p2", p2)
