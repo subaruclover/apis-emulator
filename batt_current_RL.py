@@ -10,6 +10,8 @@ from datetime import timedelta
 
 logger = logging.getLogger(__name__)
 
+from bottle import route, run, template, static_file, request, response, post, get
+
 import global_var as gl
 import config as conf
 import analyser
@@ -23,7 +25,7 @@ import pandas as pd
 # import matplotlib.colors as mcolors
 import seaborn as sns
 import tensorflow as tf
-import keras.backend as K
+import tensorflow.keras.backend as K
 
 import os
 os.environ['TF_FORCE_GPU_ALLOW_GROWTH'] = 'true'
@@ -334,3 +336,61 @@ class BatteryRSOC():
             # reward = -cost
 
             return reward
+
+
+# def startWebServer():
+#     run(host=conf.b_host, port=conf.b_port, quiet=False, reloader=False)
+
+# host = conf.b_host
+# port = conf.b_port
+
+# import requests
+# payload = "{\"name\":\"John\",\"age\":30,\"cars\":[ \"Ford\", \"BMW\",\"Fiat\"]}"
+# url = "localhost:8080/api"
+# headers = {
+#   'content-type': "application/json",
+#   'cache-control': "no-cache"
+#   }
+# response = requests.request("POST", url, data=payload, headers=headers)
+# print(response.text)
+
+# @post('/')
+# def index():
+#     postdata = request.body.read()
+#     print(postdata) #this goes to log file only, not to client
+#     name = request.forms.get("name")
+#     surname = request.forms.get("surname")
+#     return "Hi {name} {surname}".format(name=name, surname=surname)
+#
+# run(host=conf.b_host, port=conf.b_port, debug=True)
+
+
+# import sys
+#
+# @get('/api')
+# def hello():
+#     return "This is api page for processing POSTed messages"
+#
+# @post('/api')
+# def api():
+#     print(request.body.getvalue().decode('utf-8'), file=sys.stdout)
+#     return request.body
+
+
+# run(host=conf.b_host, port=conf.b_port, debug=True)
+url = "http://0.0.0.0:4390/get/log"
+import requests, json
+# response = requests.request("POST", url, data=gl)
+# print(response.text)
+
+# need to refresh the output data every 5s? time.sleep()
+while not gl.sema:  # True
+    # refresh every 5 seconds
+    time.sleep(5)
+    # read variables from /get/log url
+    output_data = requests.get(url).text
+    # print(f.text)
+    output_data = json.loads(output_data)
+    house_1 = output_data['E001']
+    print(house_1['emu']['rsoc'])
+
