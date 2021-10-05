@@ -6,32 +6,15 @@ Create on Sep 26, 2021
 
 import logging.config
 import time
-from datetime import timedelta
 
 logger = logging.getLogger(__name__)
 
-from bottle import route, run, template, static_file, request, response, post, get
-
 import global_var as gl
 import config as conf
-import analyser
-
-import h5py
-import warnings
-import pickle
-import numpy as np
-import pandas as pd
-# import matplotlib.pyplot as plt
-# import matplotlib.colors as mcolors
-import seaborn as sns
-import tensorflow as tf
-import tensorflow.keras.backend as K
 
 import os
 os.environ['TF_FORCE_GPU_ALLOW_GROWTH'] = 'true'
 
-from sklearn.preprocessing import StandardScaler, MinMaxScaler, RobustScaler
-from sklearn.model_selection import train_test_split
 import numpy as np
 from tensorflow.keras.models import Model
 from tensorflow.keras.layers import Input, Dense
@@ -363,9 +346,11 @@ while not gl.sema:  # True
 
     for ids, dict_ in output_data.items():  # ids: E001, E002, ... house ID
         # print('the name of the dictionary is ', ids)
-        # print('the dictionary looks like ', dict_)
+        # print('the dictionary is ', dict_)
         pvc_charge_power[ids] = output_data[ids]["emu"]["pvc_charge_power"]
         ups_output_power[ids] = output_data[ids]["emu"]["ups_output_power"]
         p2[ids] = output_data[ids]["dcdc"]["powermeter"]["p2"]
 
-        print("pv", pvc_charge_power, "load", ups_output_power, "p2", p2)
+        print("pv of {ids} is {pv},".format(ids=ids, pv=pvc_charge_power[ids]),
+              "load of {ids} is {load},".format(ids=ids, load=ups_output_power[ids]),
+              "p2 of {ids} is {p2}".format(ids=ids, p2=p2[ids]))
