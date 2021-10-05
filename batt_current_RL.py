@@ -321,19 +321,22 @@ class BatteryRSOC():
             return reward
 
 
+# TODO: read variables from web API to form our states
 host = conf.b_host
 port = conf.b_port
 # url = "http://0.0.0.0:4390/get/log"
 
 URL = "http://" + host + ":" + str(port) + "/get/log"
+
 import requests, json
 # response = requests.request("POST", url, data=gl)
 # print(response.text)
-
 # dicts of states for all houses
 pvc_charge_power = {}
 ups_output_power = {}
-p2 = {}
+p2 = {}  # powermeter.p2, Power consumption to the power storage system [W]
+wg = {}  # meter.wg, DC Grid power [W]
+wb = {}  # meter.wb, Battery Power [W]
 
 # need to refresh the output data every 5s? time.sleep()
 while not gl.sema:  # True
@@ -350,7 +353,12 @@ while not gl.sema:  # True
         pvc_charge_power[ids] = output_data[ids]["emu"]["pvc_charge_power"]
         ups_output_power[ids] = output_data[ids]["emu"]["ups_output_power"]
         p2[ids] = output_data[ids]["dcdc"]["powermeter"]["p2"]
+        wg[ids] = output_data[ids]["dcdc"]["meter"]["wg"]
+        wb[ids] = output_data[ids]["dcdc"]["meter"]["wb"]
 
         print("pv of {ids} is {pv},".format(ids=ids, pv=pvc_charge_power[ids]),
               "load of {ids} is {load},".format(ids=ids, load=ups_output_power[ids]),
-              "p2 of {ids} is {p2}".format(ids=ids, p2=p2[ids]))
+              "p2 of {ids} is {p2},".format(ids=ids, p2=p2[ids]),
+              "wg of {ids} is {wg},".format(ids=ids, wg=wg[ids]),
+              "wb of {ids} is {wb},".format(ids=ids, wb=wb[ids]),
+              )
