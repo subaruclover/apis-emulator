@@ -278,47 +278,47 @@ class BatteryEnv():
 
 
 # rsoc update flow of apis
-class BatteryRSOC():
-    def __init__(self):
-        self.gl = gl
-
-    def rsocUpdate(self):   # reward?
-        battery = {}
-        for oesid in gl.oesunits:
-            # calculate the remaining batteries and (dis)charge them
-            battery[oesid] = gl.oesunits[oesid]["emu"]["rsoc"] * conf.batterySize[oesid] / 100  # remaining Wh
-            if gl.oesunits[oesid]["emu"]["battery_current"] > 0:  # battery charge
-                battery[oesid] += gl.acc * gl.oesunits[oesid]["emu"][
-                    "charge_discharge_power"] / 3600  # remaining Wh + current battery inflow
-            else:  # battery discharge
-                battery[oesid] -= gl.acc * gl.oesunits[oesid]["emu"][
-                    "charge_discharge_power"] / 3600  # remaining Wh + current battery inflow
-            # print "battery remaining"+oesid + " : "+str(battery[oesid]) + ", "+str(gl.oesunits[oesid]["emu"]["charge_discharge_power"])
-            # convert the remaining batteries to rsoc after considering the limits
-            if battery[oesid] < 0:  # should never happen
-                logger.error(
-                    str(gl.now) + " : " + oesid + " : remaining capacity = " + str(int(battery[oesid])) + "Wh < 0Wh ")
-                gl.oesunits[oesid]["emu"]["rsoc"] = 0.0
-                gl.oesunits[oesid]["dcdc"]["powermeter"]["p2"] -= int(battery[oesid])
-
-            elif battery[oesid] > conf.batterySize[oesid]:
-                gl.oesunits[oesid]["emu"]["rsoc"] = 100.0
-                gl.wasted[oesid] = battery[oesid] - conf.batterySize[oesid]
-                if conf.debug:
-                    logger.debug(oesid + ": battery just got full. wasted=" + str(gl.wasted[oesid]))
-            else:
-                gl.oesunits[oesid]["emu"]["rsoc"] = round(battery[oesid] * 100 / conf.batterySize[oesid], 2)
-            # logger.debug("RSOC of unit"+ str(oesid)+" : "+ str(gl.oesunits[oesid]["emu"]["rsoc"]))
-
-            battery_charge_power = gl.oesunits[oesid]["emu"]["battery_voltage"] * gl.oesunits[oesid]["emu"]["battery_current"]
-            p2_sim = gl.oesunits[oesid]["emu"]["pvc_charge_power"] - battery_charge_power
-            cost = -p2_sim
-
-            # reward function
-            reward = np.minimum(-cost, 0.)
-            # reward = -cost
-
-            return reward
+# class BatteryRSOC():
+#     def __init__(self):
+#         self.gl = gl
+#
+#     def rsocUpdate(self):   # reward?
+#         battery = {}
+#         for oesid in gl.oesunits:
+#             # calculate the remaining batteries and (dis)charge them
+#             battery[oesid] = gl.oesunits[oesid]["emu"]["rsoc"] * conf.batterySize[oesid] / 100  # remaining Wh
+#             if gl.oesunits[oesid]["emu"]["battery_current"] > 0:  # battery charge
+#                 battery[oesid] += gl.acc * gl.oesunits[oesid]["emu"][
+#                     "charge_discharge_power"] / 3600  # remaining Wh + current battery inflow
+#             else:  # battery discharge
+#                 battery[oesid] -= gl.acc * gl.oesunits[oesid]["emu"][
+#                     "charge_discharge_power"] / 3600  # remaining Wh + current battery inflow
+#             # print "battery remaining"+oesid + " : "+str(battery[oesid]) + ", "+str(gl.oesunits[oesid]["emu"]["charge_discharge_power"])
+#             # convert the remaining batteries to rsoc after considering the limits
+#             if battery[oesid] < 0:  # should never happen
+#                 logger.error(
+#                     str(gl.now) + " : " + oesid + " : remaining capacity = " + str(int(battery[oesid])) + "Wh < 0Wh ")
+#                 gl.oesunits[oesid]["emu"]["rsoc"] = 0.0
+#                 gl.oesunits[oesid]["dcdc"]["powermeter"]["p2"] -= int(battery[oesid])
+#
+#             elif battery[oesid] > conf.batterySize[oesid]:
+#                 gl.oesunits[oesid]["emu"]["rsoc"] = 100.0
+#                 gl.wasted[oesid] = battery[oesid] - conf.batterySize[oesid]
+#                 if conf.debug:
+#                     logger.debug(oesid + ": battery just got full. wasted=" + str(gl.wasted[oesid]))
+#             else:
+#                 gl.oesunits[oesid]["emu"]["rsoc"] = round(battery[oesid] * 100 / conf.batterySize[oesid], 2)
+#             # logger.debug("RSOC of unit"+ str(oesid)+" : "+ str(gl.oesunits[oesid]["emu"]["rsoc"]))
+#
+#             battery_charge_power = gl.oesunits[oesid]["emu"]["battery_voltage"] * gl.oesunits[oesid]["emu"]["battery_current"]
+#             p2_sim = gl.oesunits[oesid]["emu"]["pvc_charge_power"] - battery_charge_power
+#             cost = -p2_sim
+#
+#             # reward function
+#             reward = np.minimum(-cost, 0.)
+#             # reward = -cost
+#
+#             return reward
 
 
 # TODO: read variables from web API to form our states
@@ -340,8 +340,8 @@ wb = {}  # meter.wb, Battery Power [W]
 
 # need to refresh the output data every 5s? time.sleep()
 while not gl.sema:  # True
-    # refresh every 5 seconds
-    time.sleep(5)
+    # # refresh every 5 seconds
+    # time.sleep(5)
     # read variables from /get/log url
     # print(output_data.text)
     output_data = requests.get(URL).text
@@ -360,5 +360,8 @@ while not gl.sema:  # True
               "load of {ids} is {load},".format(ids=ids, load=ups_output_power[ids]),
               "p2 of {ids} is {p2},".format(ids=ids, p2=p2[ids]),
               "wg of {ids} is {wg},".format(ids=ids, wg=wg[ids]),
-              "wb of {ids} is {wb},".format(ids=ids, wb=wb[ids]),
+              "wb of {ids} is {wb},".format(ids=ids, wb=wb[ids])
               )
+
+    # refresh every 5 seconds
+    time.sleep(5)

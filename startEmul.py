@@ -32,15 +32,6 @@ def index():
                     ids=sorted(ids)
                     )
 
-
-@route('/time')  # the time
-def showTime():
-    with open("jsontmp/standard.json") as json_unit_file:
-        oesunits_add_unit = json.load(json_unit_file)
-        gl.now = oesunits_add_unit["time"]
-    return gl.now
-
-
 @route('/restart')
 def getInitJsonFile():
     while gl.sema:
@@ -251,7 +242,8 @@ def setDcdc(oesid):
     # if voltage is not yet high, gradually ramp up
     if mode == "0x0014" and currentBusVoltage != dvg:
         if gl.acc > 120:
-            if conf.debug: logger.debug("no need to ramp up")
+            if conf.debug:
+                logger.debug("no need to ramp up")
             core.rampUp(dvg, currentBusVoltage, 0)
         else:
             if conf.debug: logger.debug("need to ramp up")
@@ -330,8 +322,10 @@ def setDcdcCurrent(oesid):
     # return {"meter":gl.oesunits[oesid]["dcdc"]["meter"],"param":gl.oesunits[oesid]["dcdc"]["param"]}
     dcdc = gl.oesunits.get(oesid, {}).get('dcdc', {})
     result = {}
-    if dcdc.get('meter') is not None: result['meter'] = convert_dcdc_meter_(dcdc['meter'])
-    if dcdc.get('param') is not None: result['param'] = convert_dcdc_param_(dcdc['param'])
+    if dcdc.get('meter') is not None:
+        result['meter'] = convert_dcdc_meter_(dcdc['meter'])
+    if dcdc.get('param') is not None:
+        result['param'] = convert_dcdc_param_(dcdc['param'])
     return result
 
 

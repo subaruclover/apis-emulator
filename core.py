@@ -17,8 +17,8 @@ import global_var as gl
 import config as conf
 import analyser
 
-from batt_current_RL import DQNNet, SumTree, Memory
-from batt_current_RL import BatteryRSOC
+# from batt_current_RL import DQNNet, SumTree, Memory
+# from batt_current_RL import BatteryRSOC
 
 
 #############################################
@@ -180,17 +180,17 @@ def rsocUpdate():
         # logger.debug("RSOC of unit"+ str(oesid)+" : "+ str(gl.oesunits[oesid]["emu"]["rsoc"]))
 
         #######################################
-        # rsoc, states, reward
-        battery_charge_power = gl.oesunits[oesid]["emu"]["battery_voltage"] * gl.oesunits[oesid]["emu"][
-            "battery_current"]
-        p2_sim = gl.oesunits[oesid]["emu"]["pvc_charge_power"] - battery_charge_power
-        cost = -p2_sim
+        # # rsoc, states, reward
+        # battery_charge_power = gl.oesunits[oesid]["emu"]["battery_voltage"] * gl.oesunits[oesid]["emu"][
+        #     "battery_current"]
+        # p2_sim = gl.oesunits[oesid]["emu"]["pvc_charge_power"] - battery_charge_power
+        # cost = -p2_sim
+        #
+        # # reward function
+        # reward = np.minimum(-cost, 0.)
+        # # reward = -cost
 
-        # reward function
-        reward = np.minimum(-cost, 0.)
-        # reward = -cost
-
-        return reward, battery
+        # return reward, battery
 
 
 def analysis():

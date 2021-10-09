@@ -4,7 +4,7 @@ Created on Aug 6, 2015
 @author: annette
 '''
 
-import pandas as pd
+# import pandas as pd
 import numpy as np
 import logging.config, datetime
 from copy import deepcopy
@@ -185,27 +185,28 @@ def Load_data():  # load house's consumption data
 ######################
 
 def old_pvcUpdate_Sample():
-    count_h=float(gl.count_s)/3600
+    count_h = float(gl.count_s)/3600
     weight = count_h-int(count_h)
-    step_now=(int((count_h)/24)), int((count_h)%24)
-    step_next=(int((count_h+1)/24)), int((count_h+1)%24)
+    step_now = (int((count_h) / 24)), int((count_h) % 24)
+    step_next = (int((count_h+1)/24)), int((count_h+1) % 24)
     if int(count_h+1) >= sol.size:
         logger.debug("no more solar radiation data")
         return False
     for oesid in gl.oesunits:
-        gl.oesunits[oesid]["emu"]["pvc_charge_power"] = round((1-weight)*sol[step_now]+ weight*sol[step_next],2) #sol[W]
+        gl.oesunits[oesid]["emu"]["pvc_charge_power"] = round((1-weight)*sol[step_now] + weight*sol[step_next], 2)  # sol[W]
     return True
 
 def old_demandUpdate_Sample():
-    count_h=float(gl.count_s)/3600
+    count_h = float(gl.count_s)/3600
     weight = count_h-int(count_h)
-    step_now=int((count_h)/24), int((count_h)%24)
-    step_next=(int((count_h+1)/24), int((count_h+1)%24))
+    step_now = int((count_h) / 24), int((count_h) % 24)
+    step_next = (int((count_h+1) / 24), int((count_h+1) % 24))
     if int(count_h+1) >= demand[next(iter(gl.oesunits))].size:
         logger.debug("no more demand data")
         return False
     for oesid in gl.oesunits:
-        gl.oesunits[oesid]["emu"]["ups_output_power"] = round(((1-weight)*demand[oesid][step_now] + weight*demand[oesid][step_next])*1000,2) #demand[W]
+        gl.oesunits[oesid]["emu"]["ups_output_power"] = \
+            round(((1-weight)*demand[oesid][step_now] + weight*demand[oesid][step_next])*1000, 2)  # demand[W]
     return True
 
 
