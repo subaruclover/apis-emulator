@@ -93,15 +93,18 @@ def lossesAndBatteryFlow(accumulateLosses=False):
         if gl.is_bypassMode[i]:
             gl.acloss[i] += conf.bypassModeLoss_c + (conf.bypassModeLoss_a + conf.transLoss_a) * gl.oesunits[i]["emu"][
                 "ups_output_power"]
-            gl.oesunits[i]["dcdc"]["powermeter"]["p2"] = int(gl.oesunits[i]["emu"]["ups_output_power"] + gl.acloss[i])
+            # gl.oesunits[i]["dcdc"]["powermeter"]["p2"] = int(gl.oesunits[i]["emu"]["ups_output_power"] + gl.acloss[i])
+            gl.oesunits[i]["dcdc"]["powermeter"]["p2"] = float(gl.oesunits[i]["emu"]["ups_output_power"] + gl.acloss[i])
         else:
             gl.dcloss[i] += conf.battModeLoss_c + conf.battModeLoss_a * gl.oesunits[i]["emu"]["ups_output_power"]
-            gl.oesunits[i]["dcdc"]["powermeter"]["p2"] = int(gl.acloss[i])
+            # gl.oesunits[i]["dcdc"]["powermeter"]["p2"] = int(gl.acloss[i])
+            gl.oesunits[i]["dcdc"]["powermeter"]["p2"] = float(gl.acloss[i])
 
         # calculate p2 (add ac charging power flow )
         if gl.is_ACCharging[i]:
             gl.acloss[i] += conf.ACChargeLoss
-            gl.oesunits[i]["dcdc"]["powermeter"]["p2"] += int(conf.ACChargeAmount + conf.ACChargeLoss)
+            # gl.oesunits[i]["dcdc"]["powermeter"]["p2"] += int(conf.ACChargeAmount + conf.ACChargeLoss)
+            gl.oesunits[i]["dcdc"]["powermeter"]["p2"] += float(conf.ACChargeAmount + conf.ACChargeLoss)
 
         ### ------------ Battery Power Flow including losses----------- ###
         outpower = gl.oesunits[i]["emu"]["ups_output_power"] - gl.oesunits[i]["dcdc"]["meter"]["wg"] + gl.dcloss[i]
@@ -168,7 +171,8 @@ def rsocUpdate():
             logger.error(
                 str(gl.now) + " : " + oesid + " : remaining capacity = " + str(int(battery[oesid])) + "Wh < 0Wh ")
             gl.oesunits[oesid]["emu"]["rsoc"] = 0.0
-            gl.oesunits[oesid]["dcdc"]["powermeter"]["p2"] -= int(battery[oesid])
+            # gl.oesunits[oesid]["dcdc"]["powermeter"]["p2"] -= int(battery[oesid])
+            gl.oesunits[oesid]["dcdc"]["powermeter"]["p2"] -= float(battery[oesid])
 
         elif battery[oesid] > conf.batterySize[oesid]:
             gl.oesunits[oesid]["emu"]["rsoc"] = 100.0
