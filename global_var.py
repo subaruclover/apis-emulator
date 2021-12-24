@@ -21,7 +21,7 @@ inData = None  # input data
 # sums up all up until now
 analyserObject = None
 
-acc = 10  # acceleration rate
+acc = 60  # acceleration rate
 # count_h = 0 #time flag: count_h hours have passed from start
 count_s = 0  # how many seconds have passed
 

@@ -364,4 +364,5 @@ while not gl.sema:  # True
               )
 
     # refresh every 5 seconds
+    print("\n")
     time.sleep(5)
