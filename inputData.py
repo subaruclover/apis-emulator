@@ -48,7 +48,6 @@ class inputDataManager():
             logger.error("Could not read input data for " + inputSet)
 
 
-
 ############################
 # load data from CSV, sample data
 ############################
@@ -175,7 +174,7 @@ def Load_data():  # load house's consumption data
 
     for house_id in consumption:
         consumption[house_id] = np.array(consumption[house_id])
-        gl.displayNames[house_id]="Sample_" + house_id
+        gl.displayNames[house_id] = "Sample_" + house_id
 
     return consumption
 
@@ -195,6 +194,7 @@ def old_pvcUpdate_Sample():
     for oesid in gl.oesunits:
         gl.oesunits[oesid]["emu"]["pvc_charge_power"] = round((1-weight)*sol[step_now] + weight*sol[step_next], 2)  # sol[W]
     return True
+
 
 def old_demandUpdate_Sample():
     count_h = float(gl.count_s)/3600

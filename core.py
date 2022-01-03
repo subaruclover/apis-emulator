@@ -139,19 +139,6 @@ def lossesAndBatteryFlow(accumulateLosses=False):
                     gl.oesunits[i]["emu"]["charge_discharge_power"] / conf.batteryVoltage, 2)
                 # logger.debug( i+ ": charge_disch "+ str(-gl.oesunits[i]["emu"]["charge_discharge_power"]) + ", ACLoss: "+str(ACLoss) + ", DCLoss: " +str(DCLoss))
 
-            # TODO RL Learner =====
-            # first try with fixed battery char/dischar current
-            # if powerflowToBattery > 0:
-            #     gl.oesunits[i]["emu"]["charge_discharge_power"] = round(powerflowToBattery, 2)
-            #     gl.oesunits[i]["emu"]["battery_current"] = round(
-            #         3000 / conf.batteryVoltage, 2)
-            #     # logger.debug( i+ ": charge_disch "+ str(gl.oesunits[i]["emu"]["charge_discharge_power"]) + ", ACLoss: "+str(ACLoss) + ", DCLoss: " +str(DCLoss))
-            # else:
-            #     gl.oesunits[i]["emu"]["charge_discharge_power"] = - round(powerflowToBattery, 2)
-            #     gl.oesunits[i]["emu"]["battery_current"] = -round(
-            #         1000 / conf.batteryVoltage, 2)
-            #     # logger.debug( i+ ": charge_disch "+ str(-gl.oesunits[i]["emu"]["charge_discharge_power"]) + ", ACLoss: "+str(ACLoss) + ", DCLoss: " +str(DCLoss))
-
 
 def rsocUpdate():
     battery = {}
