@@ -1,10 +1,10 @@
-'''
+"""
 Created on Aug 6, 2015
 
 @author: annette
 TODO: change our own data instead of sample data
 data format stays the same
-'''
+"""
 
 # import pandas as pd
 import numpy as np
