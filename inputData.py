@@ -214,6 +214,7 @@ def old_demandUpdate_Sample():
 
 ######################
 # update functions to be used by emulator with our data
+# our data is 30s for each house
 ######################
 def pvUpdate():
     count_h = float(gl.count_s) / 3600
