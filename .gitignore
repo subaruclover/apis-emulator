@@ -10,3 +10,4 @@ build
 *.pyc
 /data/output/*
 .idea
+/data/input/Large/
