@@ -22,10 +22,10 @@ class inputDataManager():
         # solarData = solarData
         # loadInputdata
         if inputSet == "Sample":
-            gl.startTime = datetime.datetime(2020, 1, 1, 0, 0, 0)
-            gl.endTime = datetime.datetime(2021, 1, 1, 0, 0, 0)
-            # gl.startTime = datetime.datetime(2019, 1, 1, 0, 0, 0)
-            # gl.endTime = datetime.datetime(2019, 12, 31, 0, 0, 0)
+            # gl.startTime = datetime.datetime(2020, 1, 1, 0, 0, 0)
+            # gl.endTime = datetime.datetime(2021, 1, 1, 0, 0, 0)
+            gl.startTime = datetime.datetime(2019, 1, 1, 0, 0, 0)
+            gl.endTime = datetime.datetime(2019, 12, 31, 0, 0, 0)
             gl.now = deepcopy(gl.startTime)
             # loadSample
             old_loadDemand_Sample()
@@ -37,6 +37,7 @@ class inputDataManager():
             # load solar radiation data
             loadSol_Sample()
             # PV_data()
+            # PVCUpdate()
             # define PV update
             self.pvcUpdate = old_pvcUpdate_Sample
             # self.pvcUpdate = pvUpdate()
@@ -125,60 +126,70 @@ def old_loadDemand_Sample():
 
 def PV_data():  # load house's PV production data
     global pv
-
-    col = list(range(2, 6, 1))
-    col.insert(0, 0)
-    # print(col)
-    our_data = np.loadtxt('data/input/Sample/house214_2019.csv', delimiter=',', skiprows=1, usecols=col)
-    # get the pvc_charge_power column (3rd), house 214, 2019
-    # pv = our_data[:, 2]
-
     pv = {}
 
-    day_len = int(len(our_data) / 96)
+    cols = list(range(2, 2880 + 1, 1))
+    cols.insert(0, 0)
+    # print(cols)
+    # read column 0, col 2~2881(end) for each cols (30s per data point) from input data
+    pv_data = np.loadtxt(
+        '/Users/Huang/Documents/APIS/apis-emulator/data/input/Oist/fourhouses_2019_apis_sol_reform.csv', delimiter=',',
+        skiprows=1, usecols=cols, encoding='utf8')
+    # our_data_all = our_data_all.fillna(method="ffill", inplace=False)
+    # our_data = our_data_all['pvc_charge_power'].values
 
-    for load_col in our_data:
-        house_id = "E{0:03d}".format(int(load_col[0]))
-        if not pv.get(house_id):
-            pv[house_id] = []
+    for row in pv_data:
+        #         print(int(row[0]), row)
+        cus_id = "E{0:03d}".format(int(row[0]))
+        # print("cus_id", cus_id)
+        # print(type(pv))
+        if not pv.get(cus_id):
+            pv[cus_id] = []
+        pv[cus_id].append(row[1:])
+        # print(pv[cus_id])
 
-    for day in range(day_len):
-        pv[house_id].append(our_data[day * 96:(day + 1) * 96, 2])
+    #     print("all id", demand)
 
-    for house_id in pv:
-        pv[house_id] = np.array(pv[house_id])
-
-    pv = pv[house_id]
+    for cus_id in pv:
+        pv[cus_id] = np.array(pv[cus_id])
+        displayNames[cus_id] = "Oist_" + cus_id
 
     return pv
 
 
 def Load_data():  # load house's consumption data
-    global consumption
+    global load
 
-    consumption = {}
-    col = list(range(2, 6, 1))
-    col.insert(0, 0)
-    # print(col)
-    our_data = np.loadtxt('data/input/Sample/house214_2019.csv', delimiter=',', skiprows=1, usecols=col)
-    # get the load column (2nd), house 214, 2019
-    # consumption = our_data[:, 1]
+    load = {}
 
-    day_len = int(len(our_data) / 96)
+    cols = list(range(2, 2880 + 1, 1))
+    cols.insert(0, 0)
+    # print(cols)
+    # read column 0, col 2~2881(end) for each cols (30s per data point) from input data
+    load_data = np.loadtxt(
+        '/Users/Huang/Documents/APIS/apis-emulator/data/input/Oist/fourhouses_2019_apis_load_reform.csv', delimiter=',',
+        skiprows=1, usecols=cols, encoding='utf8')
+    # our_data_all = our_data_all.fillna(method="ffill", inplace=False)
+    # our_data = our_data_all['pvc_charge_power'].values
 
-    for load_col in our_data:
-        house_id = "E{0:03d}".format(int(load_col[0]))
-        if not consumption.get(house_id):
-            consumption[house_id] = []
+    for row in load_data:
+        #         print(int(row[0]), row)
+        cus_id = "E{0:03d}".format(int(row[0]))
+        # print("cus_id", cus_id)
+        # print(type(pv))
+        if not load.get(cus_id):
+            load[cus_id] = []
+        load[cus_id].append(row[1:])
+        # print(pv[cus_id])
 
-    for day in range(day_len):
-        consumption[house_id].append(our_data[day * 96:(day + 1) * 96, 1])
+    #     print("all id", demand)
 
-    for house_id in consumption:
-        consumption[house_id] = np.array(consumption[house_id])
-        gl.displayNames[house_id] = "Sample_" + house_id
+    for cus_id in load:
+        load[cus_id] = np.array(load[cus_id])
+        displayNames[cus_id] = "Oist_" + cus_id
 
-    return consumption
+    return load
+
 
 
 ######################
@@ -216,6 +227,27 @@ def old_demandUpdate_Sample():
 # update functions to be used by emulator with our data
 # our data is 30s for each house
 ######################
+def PVCUpdate():
+    # count_s = 3600*12 # how many seconds have passed
+    count_t = float(count_s) / 30  # set counter for data which is collected every 30s
+    weight = count_t - int(count_t)
+    step_now = (int((count_t) / 2880) + 1) * int((count_t) % 2880)
+    step_next = (int((count_t + 1) / 2880) + 1) * int((count_t + 1) % 2880)
+
+    if int(count_t + 1) >= our_data.size:
+        logger.debug("no more our_data radiation data")
+        return False
+    for oesid in gl.oesunits:
+        gl.oesunits[oesid]["emu"]["pvc_charge_power"] = round(
+            (1 - weight) * our_data[step_now] + weight * our_data[step_next], 2)  # our_data[W]
+
+    # print("our_data[step_now]", our_data[step_now], "\n", "our_data[step_next]", our_data[step_next])
+    # print("pvc power", round((1 - weight) * our_data[step_now] + weight * our_data[step_next], 2))
+    # print((1 - weight) * our_data[step_now] + weight * our_data[step_next])
+
+    return True
+
+
 def pvUpdate():
     count_h = float(gl.count_s) / 3600
     weight = count_h - int(count_h)
