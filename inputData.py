@@ -21,26 +21,27 @@ class inputDataManager():
         # demandData = demandData
         # solarData = solarData
         # loadInputdata
-        if inputSet == "Sample":
+        # if inputSet == "Sample":
+        if inputSet == "Oist":
             # gl.startTime = datetime.datetime(2020, 1, 1, 0, 0, 0)
             # gl.endTime = datetime.datetime(2021, 1, 1, 0, 0, 0)
             gl.startTime = datetime.datetime(2019, 1, 1, 0, 0, 0)
             gl.endTime = datetime.datetime(2019, 12, 31, 0, 0, 0)
             gl.now = deepcopy(gl.startTime)
             # loadSample
-            old_loadDemand_Sample()
-            # Load_data()
+            # old_loadDemand_Sample()  #
+            Load_data()
             # define demand update
-            self.demandUpdate = old_demandUpdate_Sample
-            # self.demandUpdate = loadUpdate()
+            # self.demandUpdate = old_demandUpdate_Sample  #
+            self.demandUpdate = loadUpdate()
 
             # load solar radiation data
-            loadSol_Sample()
-            # PV_data()
-            # PVCUpdate()
+            # loadSol_Sample()  #
+            PV_data()
+            
             # define PV update
-            self.pvcUpdate = old_pvcUpdate_Sample
-            # self.pvcUpdate = pvUpdate()
+            # self.pvcUpdate = old_pvcUpdate_Sample  #
+            self.pvcUpdate = PVUpdate()
 
             for emulid in gl.displayNames:
                 # TODO: replace with pvc_charge_power for our data
@@ -142,7 +143,7 @@ def PV_data():  # load house's PV production data
         if not pv.get(cus_id):
             pv[cus_id] = []
         pv[cus_id].append(row[1:])
-        print(pv[cus_id])
+        # print(pv[cus_id])
         
 #     print("all id", demand)
     
