@@ -34,7 +34,7 @@ class inputDataManager():
             Load_data()
             # define demand update
             # self.demandUpdate = old_demandUpdate_Sample  #
-            self.demandUpdate = loadUpdate()
+            self.demandUpdate = loadUpdate
 
             # load solar radiation data
             # loadSol_Sample()  #
@@ -42,7 +42,7 @@ class inputDataManager():
 
             # define PV update
             # self.pvcUpdate = old_pvcUpdate_Sample  #
-            self.pvcUpdate = PVUpdate()
+            self.pvcUpdate = PVUpdate
 
             for emulid in gl.displayNames:
                 conf.batterySize[emulid] = conf.default_batterySize
