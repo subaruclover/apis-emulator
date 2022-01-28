@@ -128,13 +128,13 @@ class analyserClass:
         logger.debug("writing to csv")
         if conf.saveIndividualToCSV : 
             self.indivToMemory()
-            with open(conf.indivLogPath, "wb") as f:
+            with open(conf.indivLogPath, "w") as f:
                 writer = csv.writer(f)
                 writer.writerow(["id", "time", "oesunit_id", "emu_rsoc", "emu_pvc_charge_power", "emu_ups_output_power","charge_discharge_power","dcdc_meter_wg","dcdc_powermeter_p2" ])
                 writer.writerows(self.indivLog)
         if conf.saveToSummaryToCSV : 
             #self.summaryToMemory()
-            with open(conf.summaryPath, 'wb') as f:
+            with open(conf.summaryPath, 'w') as f:
                 writer = csv.writer(f)
                 writer.writerow(["time","pv", "demand", "acin", "wasted", "acloss", "dcloss","loss", "avgrsoc","wg","deltaBatt","ssr_real" ,"ssr_pv","sor","r_utility"])
                 writer.writerows(self.summaryLog)

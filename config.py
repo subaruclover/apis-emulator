@@ -18,7 +18,7 @@ dataSet = "Oist"
 # sleep time between execution loops
 # sleeptime = 1  =>  1s of emulator = gl.acc seconds of real time
 # sleeptime = 0  =>  run at processor speed
-sleeptime = 1
+sleeptime = 0
 
 # start emulator for emulating powerflow of whole physical system (PV, battery, ...)
 doUpdates = True
