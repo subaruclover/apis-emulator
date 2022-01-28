@@ -128,69 +128,51 @@ def PV_data():  # load house's PV production data
     global pv
     pv = {}
 
-    cols = list(range(2, 2880 + 1, 1))
+    cols = list(range(2, 2880+2, 1))
     cols.insert(0, 0)
-    # print(cols)
-    # read column 0, col 2~2881(end) for each cols (30s per data point) from input data
+    # read column 0, col 2~2882(end) for each cols (30s per data point) from input data
     pv_data = np.loadtxt(
-        '/Users/Huang/Documents/APIS/apis-emulator/data/input/Oist/fourhouses_2019_apis_sol_reform.csv', delimiter=',',
-        skiprows=1, usecols=cols, encoding='utf8')
-    # our_data_all = our_data_all.fillna(method="ffill", inplace=False)
-    # our_data = our_data_all['pvc_charge_power'].values
+        '/Users/Huang/Documents/APIS/apis-emulator/data/input/Oist/fourhouses_2019_apis_sol_reform.csv', delimiter=',', skiprows=1, usecols=cols, encoding='utf8')
 
     for row in pv_data:
-        #         print(int(row[0]), row)
+#         print(int(row[0]), row)
         cus_id = "E{0:03d}".format(int(row[0]))
         # print("cus_id", cus_id)
         # print(type(pv))
         if not pv.get(cus_id):
             pv[cus_id] = []
         pv[cus_id].append(row[1:])
-        # print(pv[cus_id])
-
-    #     print("all id", demand)
-
+        print(pv[cus_id])
+        
+#     print("all id", demand)
+    
     for cus_id in pv:
         pv[cus_id] = np.array(pv[cus_id])
-        displayNames[cus_id] = "Oist_" + cus_id
+        gl.displayNames[cus_id] = "Oist_"+cus_id
 
     return pv
 
-
-def Load_data():  # load house's consumption data
+def Load_data():  # load house's comsumption data
     global load
-
     load = {}
 
-    cols = list(range(2, 2880 + 1, 1))
+    cols = list(range(2, 2880+2, 1))
     cols.insert(0, 0)
-    # print(cols)
     # read column 0, col 2~2881(end) for each cols (30s per data point) from input data
     load_data = np.loadtxt(
-        '/Users/Huang/Documents/APIS/apis-emulator/data/input/Oist/fourhouses_2019_apis_load_reform.csv', delimiter=',',
-        skiprows=1, usecols=cols, encoding='utf8')
-    # our_data_all = our_data_all.fillna(method="ffill", inplace=False)
-    # our_data = our_data_all['pvc_charge_power'].values
+        '/Users/Huang/Documents/APIS/apis-emulator/data/input/Oist/fourhouses_2019_apis_load_reform.csv', delimiter=',', skiprows=1, usecols=cols, encoding='utf8')
 
     for row in load_data:
-        #         print(int(row[0]), row)
         cus_id = "E{0:03d}".format(int(row[0]))
-        # print("cus_id", cus_id)
-        # print(type(pv))
         if not load.get(cus_id):
             load[cus_id] = []
         load[cus_id].append(row[1:])
-        # print(pv[cus_id])
-
-    #     print("all id", demand)
-
+        
     for cus_id in load:
         load[cus_id] = np.array(load[cus_id])
-        displayNames[cus_id] = "Oist_" + cus_id
+        gl.displayNames[cus_id] = "Oist_"+cus_id
 
     return load
-
-
 
 ######################
 # update functions to be used by emulator with sample data
@@ -227,6 +209,7 @@ def old_demandUpdate_Sample():
 # update functions to be used by emulator with our data
 # our data is 30s for each house
 ######################
+"""
 def PVCUpdate():
     # count_s = 3600*12 # how many seconds have passed
     count_t = float(count_s) / 30  # set counter for data which is collected every 30s
@@ -239,7 +222,31 @@ def PVCUpdate():
         return False
     for oesid in gl.oesunits:
         gl.oesunits[oesid]["emu"]["pvc_charge_power"] = round(
-            (1 - weight) * our_data[step_now] + weight * our_data[step_next], 2)  # our_data[W]
+            (1 - weight) * our_data[step_now] + weight * our_data[step_next], 2)  # sol[W]
+
+    # print("our_data[step_now]", our_data[step_now], "\n", "our_data[step_next]", our_data[step_next])
+    # print("pvc power", round((1 - weight) * our_data[step_now] + weight * our_data[step_next], 2))
+    # print((1 - weight) * our_data[step_now] + weight * our_data[step_next])
+
+    return True
+"""
+
+
+def PVUpdate():
+    count_t = float(gl.count_s) / 30  # set counter for data which is collected every 30s
+    weight = count_t - int(count_t)
+    step_now = int((count_t) / 2880), int((count_t) % 2880)
+    step_next = (int((count_t+1) / 2880), int((count_t+1) % 2880))
+
+    # step_now = (int((count_t) / 2880) ) * int((count_t) % 2880)
+    # step_next = (int((count_t + 1) / 2880) ) * int((count_t + 1) % 2880)
+    
+    if int(count_t + 1) >= pv[next(iter(gl.oesunits))].size:
+        logger.debug("no more oist radiation data")
+        return False
+    for oesid in gl.oesunits:
+        gl.oesunits[oesid]["emu"]["pvc_charge_power"] = round(
+            (1 - weight) * pv[oesid][step_now] + weight * pv[oesid][step_next], 2)  # our_data[W]
 
     # print("our_data[step_now]", our_data[step_now], "\n", "our_data[step_next]", our_data[step_next])
     # print("pvc power", round((1 - weight) * our_data[step_now] + weight * our_data[step_next], 2))
@@ -248,29 +255,32 @@ def PVCUpdate():
     return True
 
 
-def pvUpdate():
-    count_h = float(gl.count_s) / 3600
-    weight = count_h - int(count_h)
-    step_now = (int((count_h) / 24*4)), int((count_h) % 24*4)
-    step_next = (int((count_h + 1) / 24*4)), int((count_h + 1) % 24*4)
-    if int(count_h + 1) >= pv.size:
-        logger.debug("no more pv production data")
-        return False
-    for oesid in gl.oesunits:
-        gl.oesunits[oesid]["emu"]["pvc_charge_power"] = round((1 - weight) * pv[step_now] + weight * pv[step_next],
-                                                              2)  # sol[W]
-    return True
-
-
 def loadUpdate():
-    count_h = float(gl.count_s) / 3600
-    weight = count_h - int(count_h)
-    step_now = int((count_h) / 24*4), int((count_h) % 24*4)
-    step_next = (int((count_h + 1) / 24*4), int((count_h + 1) % 24*4))
-    if int(count_h + 1) >= consumption[next(iter(gl.oesunits))].size:
-        logger.debug("no more consumption data")
+    count_t = float(gl.count_s) / 30  # set counter for data which is collected every 30s
+    weight = count_t - int(count_t)
+    step_now = int((count_t) / 2880), int((count_t) % 2880)
+    step_next = (int((count_t+1) / 2880), int((count_t+1) % 2880))
+
+    # step_now = (int((count_t) / 2880) ) * int((count_t) % 2880)
+    # step_next = (int((count_t + 1) / 2880) ) * int((count_t + 1) % 2880)
+    
+    if int(count_t + 1) >= load[next(iter(gl.oesunits))].size:
+        logger.debug("no more oist load data")
         return False
     for oesid in gl.oesunits:
         gl.oesunits[oesid]["emu"]["ups_output_power"] = round(
-            ((1 - weight) * consumption[oesid][step_now] + weight * demand[oesid][step_next]), 2)  # consumption[W]
+            (1 - weight) * load[oesid][step_now] + weight * load[oesid][step_next], 2)  # load_data[W]
+
+    ########
+    # count_h = float(gl.count_s) / 3600
+    # weight = count_h - int(count_h)
+    # step_now = int((count_h) / 24*4), int((count_h) % 24*4)
+    # step_next = (int((count_h + 1) / 24*4), int((count_h + 1) % 24*4))
+    # if int(count_h + 1) >= consumption[next(iter(gl.oesunits))].size:
+    #     logger.debug("no more consumption data")
+    #     return False
+    # for oesid in gl.oesunits:
+    #     gl.oesunits[oesid]["emu"]["ups_output_power"] = round(
+    #         ((1 - weight) * consumption[oesid][step_now] + weight * demand[oesid][step_next]), 2)  # consumption[W]
+    
     return True
