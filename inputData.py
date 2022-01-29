@@ -27,7 +27,7 @@ class inputDataManager():
             # gl.startTime = datetime.datetime(2020, 1, 1, 0, 0, 0)
             # gl.endTime = datetime.datetime(2021, 1, 1, 0, 0, 0)
             gl.startTime = datetime.datetime(2019, 1, 1, 0, 0, 0)
-            gl.endTime = datetime.datetime(2019, 12, 31, 0, 0, 0)
+            gl.endTime = datetime.datetime(2020, 1, 1, 0, 0, 0)
             gl.now = deepcopy(gl.startTime)
             # loadSample
             # old_loadDemand_Sample()  #
