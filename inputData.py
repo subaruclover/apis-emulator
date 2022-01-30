@@ -65,7 +65,7 @@ def loadSol_Sample():
     # for a in sol:
     #   print(*a, sep=',')
 
-    sol = np.loadtxt('data/input/Sample/sample_solar_data.csv', delimiter=',')
+    sol = np.loadtxt('data/input/Sample/sample_solar_data.csv', delimiter=',')  # [unit: W/m^2]
 
     # print('#### sol ({}) ####'.format(len(sol)))
     # for a in sol:
@@ -100,7 +100,7 @@ def old_loadDemand_Sample():
     cols.insert(0, 1)
     # read column 2, col 7~53 for every 2 cols (1 hour per data point) from input data
     # replace our own data files to the /Sample/ folder
-    demand_data = np.loadtxt('data/input/Sample/sample_load_data.csv', delimiter=',', skiprows=1, usecols=cols)
+    demand_data = np.loadtxt('data/input/Sample/sample_load_data.csv', delimiter=',', skiprows=1, usecols=cols)  # [unit: kW]
     for row in demand_data:
         cus_id = "E{0:03d}".format(int(row[0]))
         if not demand.get(cus_id):
