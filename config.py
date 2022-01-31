@@ -16,6 +16,7 @@ debug = False
 dataSet = "Oist"
 
 # sleep time between execution loops
+# Pseudo offline mode, for speeding up
 # sleeptime = 1  =>  1s of emulator = gl.acc seconds of real time
 # sleeptime = 0  =>  run at processor speed
 sleeptime = 0
