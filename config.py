@@ -95,8 +95,13 @@ pvc_sol_reg = {}
 #######################
 
 dburl = 'http://temp.com'
-summaryPath = 'data/output/summary.csv'
-indivLogPath = 'data/output/indivLog.csv'
+# one year
+# summaryPath = 'data/output/summary.csv'
+# indivLogPath = 'data/output/indivLog.csv'
+
+# one month
+summaryPath = 'data/output/summary_Oct.csv'
+indivLogPath = 'data/output/indivLog_Oct.csv'
 
 b_host = "0.0.0.0"
 b_port = 4390
