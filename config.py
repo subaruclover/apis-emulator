@@ -12,14 +12,14 @@ Created on Aug 3, 2015
 debug = False
 
 # input data
-# dataSet = "Sample"
-dataSet = "Oist"
+dataSet = "Sample"
+# dataSet = "Oist"
 
 # sleep time between execution loops
 # Pseudo offline mode, for speeding up
 # sleeptime = 1  =>  1s of emulator = gl.acc seconds of real time
 # sleeptime = 0  =>  run at processor speed
-sleeptime = 0
+sleeptime = 1
 
 # start emulator for emulating powerflow of whole physical system (PV, battery, ...)
 doUpdates = True
