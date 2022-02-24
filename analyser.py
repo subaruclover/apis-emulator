@@ -123,6 +123,7 @@ class analyserClass:
             l.append(val["emu"]["charge_discharge_power"])
             l.append(val["dcdc"]["meter"]["wg"])
             l.append(val["dcdc"]["powermeter"]["p2"])
+            l.append(val["dcdc"]["meter"]["ig"])
             self.indivLog.append(l)
 
     def writeToCSV(self):
@@ -132,7 +133,7 @@ class analyserClass:
             with open(conf.indivLogPath, "w") as f:
                 writer = csv.writer(f)
                 writer.writerow(["id", "time", "oesunit_id", "emu_rsoc", "emu_pvc_charge_power", "emu_ups_output_power",
-                                 "charge_discharge_power", "dcdc_meter_wg", "dcdc_powermeter_p2"])
+                                 "charge_discharge_power", "dcdc_meter_wg", "dcdc_powermeter_p2", "dcdc_meter_ig"])
                 writer.writerows(self.indivLog)
         if conf.saveToSummaryToCSV:
             # self.summaryToMemory()
