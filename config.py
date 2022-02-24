@@ -96,8 +96,11 @@ pvc_sol_reg = {}
 
 dburl = 'http://temp.com'
 # one year
-summaryPath = 'data/output/summary_sample.csv'
-indivLogPath = 'data/output/indivLog_sample.csv'
+# summaryPath = 'data/output/summary_sample.csv'
+# indivLogPath = 'data/output/indivLog_sample.csv'
+# 2 months
+summaryPath = 'data/output/summary_sample_2m.csv'
+indivLogPath = 'data/output/indivLog_sample_2m.csv'
 
 # one month
 # summaryPath = 'data/output/summary_Oct.csv'
