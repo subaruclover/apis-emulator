@@ -99,8 +99,8 @@ dburl = 'http://temp.com'
 # summaryPath = 'data/output/summary_sample.csv'
 # indivLogPath = 'data/output/indivLog_sample.csv'
 # 2 months
-summaryPath = 'data/output/summary_sample_2m.csv'
-indivLogPath = 'data/output/indivLog_sample_2m.csv'
+summaryPath = 'data/output/summary_sample_action.csv'
+indivLogPath = 'data/output/indivLog_sample_action.csv'
 
 # one month
 # summaryPath = 'data/output/summary_Oct.csv'

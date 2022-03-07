@@ -125,6 +125,7 @@ class analyserClass:
             l.append(val["dcdc"]["powermeter"]["p2"])
             l.append(val["dcdc"]["meter"]["ig"])
             self.indivLog.append(l)
+            # print(l)
 
     def writeToCSV(self):
         logger.debug("writing to csv")
