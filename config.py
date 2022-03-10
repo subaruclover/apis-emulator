@@ -12,8 +12,8 @@ Created on Aug 3, 2015
 debug = False
 
 # input data
-dataSet = "Sample"
-# dataSet = "Oist"
+# dataSet = "Sample"
+dataSet = "Oist"
 
 # sleep time between execution loops
 # Pseudo offline mode, for speeding up
@@ -99,12 +99,12 @@ dburl = 'http://temp.com'
 # summaryPath = 'data/output/summary_sample.csv'
 # indivLogPath = 'data/output/indivLog_sample.csv'
 # 2 months
-summaryPath = 'data/output/summary_sample_action.csv'
-indivLogPath = 'data/output/indivLog_sample_action.csv'
+# summaryPath = 'data/output/summary_sample_action.csv'
+# indivLogPath = 'data/output/indivLog_sample_action.csv'
 
 # one month
-# summaryPath = 'data/output/summary_Oct.csv'
-# indivLogPath = 'data/output/indivLog_Oct.csv'
+summaryPath = 'data/output/summary_Oct.csv'
+indivLogPath = 'data/output/indivLog_Oct.csv'
 
 b_host = "0.0.0.0"
 b_port = 4390

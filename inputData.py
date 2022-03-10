@@ -22,27 +22,27 @@ class inputDataManager():
         # demandData = demandData
         # solarData = solarData
         # loadInputdata
-        if inputSet == "Sample":
-        # if inputSet == "Oist":
-            gl.startTime = datetime.datetime(2020, 1, 1, 0, 0, 0)
-            gl.endTime = datetime.datetime(2021, 1, 1, 0, 0, 0)
+        # if inputSet == "Sample":
+        if inputSet == "Oist":
+            gl.startTime = datetime.datetime(2020, 10, 1, 0, 0, 0)
+            gl.endTime = datetime.datetime(2020, 10, 31, 0, 0, 0)
             # gl.startTime = datetime.datetime(2019, 10, 1, 0, 0, 0)
             # gl.endTime = datetime.datetime(2020, 10, 31, 23, 59, 59)
             gl.now = deepcopy(gl.startTime)
             # loadSample
-            old_loadDemand_Sample()  #
-            # Load_data()
+            # old_loadDemand_Sample()  #
+            Load_data()
             # define demand update
-            self.demandUpdate = old_demandUpdate_Sample  #
-            # self.demandUpdate = loadUpdate
+            # self.demandUpdate = old_demandUpdate_Sample  #
+            self.demandUpdate = loadUpdate
 
             # load solar radiation data
-            loadSol_Sample()  #
-            # PV_data()
+            # loadSol_Sample()  #
+            PV_data()
 
             # define PV update
-            self.pvcUpdate = old_pvcUpdate_Sample  #
-            # self.pvcUpdate = PVUpdate
+            # self.pvcUpdate = old_pvcUpdate_Sample  #
+            self.pvcUpdate = PVUpdate
 
             for emulid in gl.displayNames:
                 conf.batterySize[emulid] = conf.default_batterySize
@@ -153,7 +153,7 @@ def PV_data():  # load house's PV production data
     return pv
 
 
-def Load_data():  # load house's comsumption data
+def Load_data():  # load oist house's comsumption data
     global consumption
     consumption = {}
 
