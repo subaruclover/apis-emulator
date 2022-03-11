@@ -63,10 +63,10 @@ bypassModeLoss_c = 67
 ACChargeLoss = 10  # ???
          
 # ========== UPS SETUP ========#
-UPS_TRIGGER_BATT_OFF = 30
-UPS_TRIGGER_BATT_ON = 35
-UPS_TRIGGER_AC_OFF = 25
-UPS_TRIGGER_AC_ON = 20
+UPS_TRIGGER_BATT_OFF = 20  # 30
+UPS_TRIGGER_BATT_ON = 25  # 35
+UPS_TRIGGER_AC_OFF = 15  # 25
+UPS_TRIGGER_AC_ON = 10  # 20
 
 
 ####################
