@@ -132,7 +132,7 @@ def PV_data():  # load house's PV production data
     cols = list(range(2, 2880 + 2, 1))
     cols.insert(0, 0)
     # read column 0, col 2~2882(end) for each cols (30s per data point) from input data
-    pv_data = np.loadtxt('data/input/Oist/fourhouses_2019_apis_sol_reform_Oct.csv', delimiter=',', skiprows=1, usecols=cols)
+    pv_data = np.loadtxt('data/input/Oist/fourhouses_2019_apis_sol_reform_May.csv', delimiter=',', skiprows=1, usecols=cols)
 
     for row in pv_data:
         # print(int(row[0]), row)
@@ -160,7 +160,7 @@ def Load_data():  # load oist house's comsumption data
     cols = list(range(2, 2880 + 2, 1))
     cols.insert(0, 0)
     # read column 0, col 2~2881(end) for each cols (30s per data point) from input data
-    consumption_data = np.loadtxt('data/input/Oist/fourhouses_2019_apis_load_reform_Oct.csv', delimiter=',',
+    consumption_data = np.loadtxt('data/input/Oist/fourhouses_2019_apis_load_reform_May.csv', delimiter=',',
         skiprows=1, usecols=cols)
 
     for row in consumption_data:
