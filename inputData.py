@@ -24,8 +24,8 @@ class inputDataManager():
         # loadInputdata
         # if inputSet == "Sample":
         if inputSet == "Oist":
-            gl.startTime = datetime.datetime(2020, 10, 1, 0, 0, 0)
-            gl.endTime = datetime.datetime(2020, 10, 31, 0, 0, 0)
+            gl.startTime = datetime.datetime(2020, 5, 8, 0, 0, 0)
+            gl.endTime = datetime.datetime(2020, 6, 8, 0, 0, 0)
             # gl.startTime = datetime.datetime(2019, 10, 1, 0, 0, 0)
             # gl.endTime = datetime.datetime(2020, 10, 31, 23, 59, 59)
             gl.now = deepcopy(gl.startTime)
