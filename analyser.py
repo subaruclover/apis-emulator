@@ -70,7 +70,8 @@ class analyserClass:
             float(self.cumul["demand"] - self.cumul["acin"] + self.ratio["deltaBatt"]) / self.cumul["demand"], 4)
         # self sufficiency without AC losses
         self.ratio["ssr_pv"] = round(float(self.cumul["pv"] + self.ratio["deltaBatt"]) / self.cumul["demand"], 4)
-        # self sufficiency without AC losses
+        # solar operation ratio (sor), a cost-efficiency measure which reflects the objective of maximizing solar
+        # generation for a given PV size, that is, minimizing curtailment (E_pv / E_{uncurtailed pv})
         if not self.cumul["pv"] == 0:
             self.ratio["sor"] = round(float(self.cumul["pv"]) / (self.cumul["pv"] + self.cumul["wasted"]), 4)
         # utility ratio : AC_Input/ AC_Output
