@@ -103,8 +103,10 @@ dburl = 'http://temp.com'
 # indivLogPath = 'data/output/indivLog_sample_action.csv'
 
 # one month
-summaryPath = 'data/output/oist_summary_May_iter3.csv'
-indivLogPath = 'data/output/oist_indivLog_May_iter3.csv'
+# summaryPath = 'data/output/oist_summary_May_default_3.csv'
+# indivLogPath = 'data/output/oist_indivLog_May_default_3.csv'
+summaryPath = 'data/output/oist_summary_May_iter1_shuffle.csv'
+indivLogPath = 'data/output/oist_indivLog_May_iter1_shuffle.csv'
 
 b_host = "0.0.0.0"
 b_port = 4390
