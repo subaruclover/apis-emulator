@@ -100,11 +100,19 @@ class analyserClass:
             self.sumUntilNow.append("sum")
             for i in range(1, len(l)):
                 self.sumUntilNow.append(l[i])
+            # output log file as it runs (for each day)
+            with open("data/output/daily_output.txt", "w") as f:
+                print(["time", "pv", "demand", "acin", "wasted", "acloss", "dcloss", "loss", "avgrsoc", "wg", "deltaBatt",
+                     "ssr_real", "ssr_pv", "sor", "r_utility"], file=f)
         else:
             for i in range(1, len(l)):
                 self.sumUntilNow[i] += l[i]
         # with open(conf.csvPath, 'a') as f:
         #    f.write(",".join(map(str, list))+"\n")
+
+        # append daily sum data in daily_output.txt file
+        with open("data/output/daily_output.txt", "a") as f:
+            print(l, file=f)
 
     def initDailyVal(self):
         self.cumul = {"pv": 0, "demand": 0, "acin": 0, "wasted": 0, "acloss": 0, "dcloss": 0, "loss": 0, "avgrsoc": 0,
