@@ -107,8 +107,8 @@ dburl = 'http://temp.com'
 # indivLogPath = 'data/output/oist_indivLog_May_default_3.csv'
 # summaryPath = 'data/output/oist_summary_May_iter1_shuffle.csv'
 # indivLogPath = 'data/output/oist_indivLog_May_iter1_shuffle.csv'
-summaryPath = 'data/output/oist_summary_May_speed.csv'
-indivLogPath = 'data/output/oist_indivLog_May_speed.csv'
+summaryPath = 'data/output/oist_summary_May_Prior_iter5_sumP2.csv'
+indivLogPath = 'data/output/oist_indivLog_May_Prior_iter5_sumP2.csv'
 
 b_host = "0.0.0.0"
 b_port = 4390

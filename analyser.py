@@ -101,7 +101,7 @@ class analyserClass:
             for i in range(1, len(l)):
                 self.sumUntilNow.append(l[i])
             # output log file as it runs (for each day)
-            with open("data/output/daily_output.txt", "w") as f:
+            with open("data/output/daily_output_prior_iter5.txt", "w") as f:
                 print(["time", "pv", "demand", "acin", "wasted", "acloss", "dcloss", "loss", "avgrsoc", "wg", "deltaBatt",
                      "ssr_real", "ssr_pv", "sor", "r_utility"], file=f)
         else:
@@ -111,7 +111,7 @@ class analyserClass:
         #    f.write(",".join(map(str, list))+"\n")
 
         # append daily sum data in daily_output.txt file
-        with open("data/output/daily_output.txt", "a") as f:
+        with open("data/output/daily_output_prior_iter5.txt", "a") as f:
             print(l, file=f)
 
     def initDailyVal(self):
